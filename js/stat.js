@@ -41,15 +41,15 @@ window.renderStatistics = function (ctx, names, times) {
     var AspectRatio = barChartHeight / maxResult;
     return Math.ceil(arr[index] * AspectRatio);
   };
-  var findColor = function (playerName, columnColor) {
-    return (playerName === 'Вы') ? columnColor : 'hsl(240 , ' + Math.floor(Math.random() * 100) + '% , 50%)';
+  var makeRandomBlueColor = function () {
+    return 'hsl(240 , ' + Math.floor(Math.random() * 100) + '% , 50%)';
   };
   // 4.1  Рисуем каждый столбец гистограммы с именем игрока и его результатом
   for (var i = 0; i < times.length; i++) {
     // 4.2 Находим высоту столбца
     var heightResult = calculateHeightColumn(times, BAR_CHART_HEIGHT, i);
     // 4.3.2 Находим цвет столбца
-    ctx.fillStyle = findColor(names[i], MAIN_COLUMN_COLOR);
+    ctx.fillStyle = (names[i] === 'Вы') ? MAIN_COLUMN_COLOR : makeRandomBlueColor();
     // 4.3.3 Рисуем столбец, учитывая заданные размеры и изменение положения в зависимости от итерации.
     ctx.fillRect(200 + i * (COLUMN_WIDTH + SPACE_BETWEEN_COLUMNS), 250, -COLUMN_WIDTH, -heightResult);
     // 4.3.4 Изменяем цвет заливки для текста
