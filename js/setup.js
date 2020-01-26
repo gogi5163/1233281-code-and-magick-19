@@ -1,6 +1,7 @@
 'use strict';
 // 1. Убираем класс hidden у окна setup
 document.querySelector('.setup').classList.remove('hidden');
+
 // 2. Создаем массив с объектами, которые описывают магов.
 // 2.1 Задаем константы для генерации случайных магов
 var COUNT_OF_WIZARDS = 4;
@@ -24,6 +25,7 @@ var randomWizards = [];
 for (var i = 0; i < COUNT_OF_WIZARDS; i++) {
   randomWizards[i] = createRandomWizard(NAMES, LAST_NAMES, COAT_COLORS, EYES_COLORS);
 }
+
 // 3.1 Находим блок, который мы будем наполнять случайными сгенерированными магами
 var similarListElement = document.querySelector('.setup-similar-list');
 // 3.2 Находим шаблон мага
@@ -38,6 +40,7 @@ var renderWizard = function (wizard) {
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   return wizardElement;
 };
+
 // 4.1 Создаем пустой объект документа, который мы будем наполнять, перед добавлением в DOM
 var fragment = document.createDocumentFragment();
 for (i = 0; i < randomWizards.length; i++) {
@@ -45,5 +48,6 @@ for (i = 0; i < randomWizards.length; i++) {
 }
 // 4.2 Добавляем наполненный фрагмент в DOM
 similarListElement.appendChild(fragment);
+
 // 5 Покажем блок .setup-similar, удалив у него CSS-класс hidden
 document.querySelector('.setup-similar').classList.remove('hidden');
