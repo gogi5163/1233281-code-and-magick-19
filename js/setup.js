@@ -9,7 +9,7 @@ var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 // 2.2 Функция для выбора случайного элемента из массива
 var chooseRandomProperty = function (arr) {
-  return arr[Math.floor(Math.random() * (arr.length - 1))];
+  return arr[Math.floor(Math.random() * (arr.length))];
 };
 // 2.3 Функция для создания случайного мага
 var createRandomWizard = function (names, lastNames, coatColors, eyesColors) {
@@ -18,7 +18,7 @@ var createRandomWizard = function (names, lastNames, coatColors, eyesColors) {
   var eyesColor = chooseRandomProperty(eyesColors);
   return {name: name, coatColor: coatColor, eyesColor: eyesColor};
 };
-// 2.4 Создаем массив из четырех случайных маглв
+// 2.4 Создаем массив из четырех случайных магов
 var RandomFourWizards = [];
 for (var i = 0; i < 4; i++) {
   RandomFourWizards[i] = createRandomWizard(NAMES, LAST_NAMES, COAT_COLORS, EYES_COLORS);
