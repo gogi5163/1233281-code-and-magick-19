@@ -53,8 +53,6 @@ document.querySelector('.setup-similar').classList.remove('hidden');
 var ESC_KEY = 'Escape';
 var ENTER_KEY = 'Enter';
 var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-var MIN_NAME_LENGTH = 2;
-var MAX_NAME_LENGTH = 25;
 var setupPopup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = document.querySelector('.setup-close');
@@ -112,9 +110,6 @@ setupOpen.addEventListener('click', function () {
 setupClose.addEventListener('click', function () {
   closePopup();
 });
-// Добавляем tabindex к аватарке и крестику, чтобы можно было осуществлять навигацию с клавиатуры
-setupOpen.querySelector('img').setAttribute('tabindex', 0);
-setupClose.setAttribute('tabindex', 0);
 // Сценарии при активной аватарке и крестике
 setupOpen.addEventListener('keydown', onSetupOpenPressEnter);
 setupClose.addEventListener('keydown', onSetupClosePressEnter);
@@ -128,11 +123,7 @@ setupSubmitButton.addEventListener('keydown', onSaveButtonPressEnter);
 // Сценарий нажатия Enter при активном инпуте
 playerName.addEventListener('keydown', onInputPressEnter);
 
-// 6 Валидация ввода имени персонажа
-playerName.setAttribute('minlength', MIN_NAME_LENGTH);
-playerName.setAttribute('maxlength', MAX_NAME_LENGTH);
-
-// 7 Изменение цвета мантии персонажа по нажатию
+// 6 Изменение цвета мантии персонажа по нажатию
 // Функция для получения следующего элемента массива после указанного.
 var getNextProperty = function (array, value) {
   if (value === '') {
@@ -156,26 +147,26 @@ var wizardCoatData = document.querySelector('input[name=coat-color]');
 var onCoatClick = function () {
   var nextColor = getNextProperty(COAT_COLORS, wizardCoatData.value);
   wizardCoat.setAttribute('style', 'fill: ' + nextColor);
-  wizardCoatData.value = nextColor;
+  wizardCoatData.setAttribute('value', nextColor);
 };
 wizardCoat.addEventListener('click', onCoatClick);
 
-// 8 Изменение цвета глаз персонажа по нажатию
+// 7 Изменение цвета глаз персонажа по нажатию
 var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes ');
 var wizardEyesData = document.querySelector('input[name=eyes-color]');
 var onEyesClick = function () {
   var nextColor = getNextProperty(EYES_COLORS, wizardEyesData.value);
   wizardEyes.setAttribute('style', 'fill: ' + nextColor);
-  wizardEyesData.value = nextColor;
+  wizardEyesData.setAttribute('value', nextColor);
 
 };
 wizardEyes.addEventListener('click', onEyesClick);
 
-// 9 Изменение цвета фаербола по нажатию
+// 8 Изменение цвета фаербола по нажатию
 var wizardFireball = document.querySelector('.setup-fireball-wrap');
 var wizardFireballData = wizardFireball.querySelector('input');
 var onFireballClick = function () {
-  wizardFireballData.value = getNextProperty(FIREBALL_COLORS, wizardFireballData.value);
+  wizardFireballData.setAttribute('value', getNextProperty(FIREBALL_COLORS, wizardFireballData.value));
   wizardFireball.setAttribute('style', 'background-color:' + wizardFireballData.value);
 };
 wizardFireball.addEventListener('click', onFireballClick);
