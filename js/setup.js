@@ -83,14 +83,6 @@ var onInputPressEnter = function (evt) {
     inputBlur();
   }
 };
-var onSaveButtonClick = function () {
-  setupWizardForm.submit();
-};
-var onSaveButtonPressEnter = function (evt) {
-  if (evt.key === ENTER_KEY) {
-    setupWizardForm.submit();
-  }
-};
 // Логика работы высплывающего окна
 var inputBlur = function () {
   playerName.blur();
@@ -113,13 +105,6 @@ setupClose.addEventListener('click', function () {
 // Сценарии при активной аватарке и крестике
 setupOpen.addEventListener('keydown', onSetupOpenPressEnter);
 setupClose.addEventListener('keydown', onSetupClosePressEnter);
-var setupSubmitButton = document.querySelector('.setup-submit');
-// Присвоим кнопке тип button, чтобы при активном импуте по нажатию на enter не происходило submit
-setupSubmitButton.setAttribute('type', 'button');
-var setupWizardForm = document.querySelector('.setup-wizard-form');
-// Отправка формы по клику или нажатию enter при активной кнопке "Сохранить"
-setupSubmitButton.addEventListener('click', onSaveButtonClick);
-setupSubmitButton.addEventListener('keydown', onSaveButtonPressEnter);
 // Сценарий нажатия Enter при активном инпуте
 playerName.addEventListener('keydown', onInputPressEnter);
 
