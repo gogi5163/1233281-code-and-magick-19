@@ -55,9 +55,7 @@ var ENTER_KEY = 'Enter';
 var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var MIN_NAME_LENGTH = 2;
 var MAX_NAME_LENGTH = 25;
-var SETUP_FORM_ACTION = 'https://js.dump.academy/code-and-magick';
-var SETUP_FORM_METHOD = 'post';
-var SETUP_FORM_ENCTYPE = 'multipart/form-data';
+var setupPopup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = document.querySelector('.setup-close');
 var playerName = document.querySelector('.setup-user-name');
@@ -100,11 +98,11 @@ var inputBlur = function () {
   playerName.blur();
 };
 var openPopup = function () {
-  document.querySelector('.setup').classList.remove('hidden');
+  setupPopup.classList.remove('hidden');
   document.addEventListener('keydown', onEscKeyPress);
 };
 var closePopup = function () {
-  document.querySelector('.setup').classList.add('hidden');
+  setupPopup.classList.add('hidden');
   document.removeEventListener('keydown', onEscKeyPress);
 };
 // Сценарии клика на аватарку и крестик
@@ -154,30 +152,31 @@ var getNextProperty = function (array, value) {
   return nextValue;
 };
 var wizardCoat = document.querySelector('.setup-wizard .wizard-coat ');
+var wizardCoatData = document.querySelector('input[name=coat-color]');
 var onCoatClick = function () {
-  wizardCoat.style.fill = getNextProperty(COAT_COLORS, wizardCoat.style.fill);
-  document.querySelector('input[name=coat-color]').value = wizardCoat.style.fill;
+  var nextColor = getNextProperty(COAT_COLORS, wizardCoatData.value);
+  wizardCoat.setAttribute('style', 'fill: ' + nextColor);
+  wizardCoatData.value = nextColor;
 };
 wizardCoat.addEventListener('click', onCoatClick);
 
 // 8 Изменение цвета глаз персонажа по нажатию
 var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes ');
+var wizardEyesData = document.querySelector('input[name=eyes-color]');
 var onEyesClick = function () {
-  wizardEyes.style.fill = getNextProperty(EYES_COLORS, wizardEyes.style.fill);
-  document.querySelector('input[name=eyes-color]').value = wizardEyes.style.fill;
+  var nextColor = getNextProperty(EYES_COLORS, wizardEyesData.value);
+  wizardEyes.setAttribute('style', 'fill: ' + nextColor);
+  wizardEyesData.value = nextColor;
 
 };
 wizardEyes.addEventListener('click', onEyesClick);
 
 // 9 Изменение цвета фаербола по нажатию
 var wizardFireball = document.querySelector('.setup-fireball-wrap');
+var wizardFireballData = wizardFireball.querySelector('input');
 var onFireballClick = function () {
-  wizardFireball.querySelector('input').value = getNextProperty(FIREBALL_COLORS, wizardFireball.querySelector('input').value);
-  wizardFireball.setAttribute('style', 'background-color:' + wizardFireball.querySelector('input').value);
+  wizardFireballData.value = getNextProperty(FIREBALL_COLORS, wizardFireballData.value);
+  wizardFireball.setAttribute('style', 'background-color:' + wizardFireballData.value);
 };
 wizardFireball.addEventListener('click', onFireballClick);
 
-// 10 Отправка формы
-setupWizardForm.action = SETUP_FORM_ACTION;
-setupWizardForm.method = SETUP_FORM_METHOD;
-setupWizardForm.enctype = SETUP_FORM_ENCTYPE;
