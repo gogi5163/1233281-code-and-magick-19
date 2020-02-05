@@ -5,7 +5,11 @@
   var setupOpen = document.querySelector('.setup-open');
   var setupClose = document.querySelector('.setup-close');
   var playerName = document.querySelector('.setup-user-name');
-  var checkInputFocus = function () {
+  var setupStyle = setupPopup.getAttribute('style');
+  var doDefaultSetup = function () {
+    setupPopup.setAttribute('style', setupStyle);
+  };
+  var inputBlurOrClosePopup = function () {
     // Если активный элемент инпут, то при нажатии ESC отменим фокус, в противном случае закроем окно.
     if (document.activeElement !== playerName) {
       closePopup();
@@ -15,7 +19,7 @@
   };
   // Обработчики
   var onEscKeyPress = function (evt) {
-    window.util.isEscEvent(evt, checkInputFocus);
+    window.util.isEscEvent(evt, inputBlurOrClosePopup);
   };
   var onSetupOpenPressEnter = function (evt) {
     window.util.isEnterEvent(evt, openPopup);
@@ -36,6 +40,7 @@
   };
   var closePopup = function () {
     setupPopup.classList.add('hidden');
+    doDefaultSetup();
     document.removeEventListener('keydown', onEscKeyPress);
   };
   // Сценарии клика на аватарку и крестик

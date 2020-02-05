@@ -35,16 +35,13 @@
         return array[Math.floor(Math.random() * (array.length))];
       },
       colorize: function (element, dataElement, colors) {
+        var currentColor = dataElement.getAttribute('value');
+        var color = this.getNextProperty(colors, currentColor);
+        dataElement.setAttribute('value', color);
         if (element.tagName.toLowerCase() === 'div') {
-          var currentColor = dataElement.getAttribute('value');
-          var color = this.getNextProperty(colors, currentColor);
           element.setAttribute('style', 'background-color: ' + color);
-          dataElement.setAttribute('value', color);
         } else {
-          currentColor = dataElement.getAttribute('value');
-          color = this.getNextProperty(colors, currentColor);
           element.setAttribute('style', 'fill:' + color);
-          dataElement.setAttribute('value', color);
         }
       },
       makeRandomBlueColor: function () {

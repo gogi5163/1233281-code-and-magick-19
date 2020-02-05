@@ -2,11 +2,6 @@
 (function () {
   var setupDialogElement = document.querySelector('.setup');
   var dialogHandler = setupDialogElement.querySelector('.upload');
-  var closeButton = document.querySelector('.setup-close');
-  var setupStyle = setupDialogElement.getAttribute('style');
-  var doDefaultSetup = function () {
-    setupDialogElement.setAttribute('style', setupStyle);
-  };
   dialogHandler.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     var startCoords = {
@@ -41,25 +36,8 @@
         dialogHandler.addEventListener('click', onClickPreventDefault);
       }
     };
-    var onSetupCloseClick = function () {
-      doDefaultSetup();
-      closeButton.removeEventListener('click', onSetupCloseClick);
-    };
-    var onSetupClosePressEnter = function (keyEnterEvt) {
-      window.util.isEnterEvent(keyEnterEvt, doDefaultSetup);
-      closeButton.removeEventListener('keydown', onSetupClosePressEnter);
-    };
-    var onEscapePress = function (keyEscEvt) {
-      window.util.isEscEvent(keyEscEvt, doDefaultSetup);
-      document.removeEventListener('keydown', onEscapePress);
-    };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-    document.addEventListener('mouseup', onMouseUp);
-    // Возврат окна в первоначальное положение
-    closeButton.addEventListener('click', onSetupCloseClick);
-    closeButton.addEventListener('keydown', onSetupClosePressEnter);
-    document.addEventListener('keydown', onEscapePress);
   });
 })();
 
