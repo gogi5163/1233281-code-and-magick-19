@@ -46,8 +46,9 @@
           element.setAttribute('style', 'fill:' + color);
           dataElement.setAttribute('value', color);
         }
-
-
+      },
+      makeRandomBlueColor: function () {
+        return 'hsl(240 , ' + Math.floor(Math.random() * 100) + '% , 50%)';
       }
     };
   })();
