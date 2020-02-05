@@ -1,4 +1,5 @@
 'use strict';
+(function(){
 window.renderStatistics = function (ctx, names, times) {
   // 1. Задаем значения констант'
   var WIDTH_CLOUD = 420;
@@ -60,3 +61,4 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText(Math.ceil(times[i]), 160 + i * (COLUMN_WIDTH + SPACE_BETWEEN_COLUMNS), 240 - heightResult);
   }
 };
+})();
