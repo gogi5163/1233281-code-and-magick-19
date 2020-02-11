@@ -46,6 +46,20 @@
       },
       makeRandomBlueColor: function () {
         return 'hsl(240 , ' + Math.floor(Math.random() * 100) + '% , 50%)';
+      },
+      getRandomNumber: function (minimum, maximum) {
+        return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+      },
+      shuffleArray: function (array) {
+        // Случайно перемешаем массив
+        var changeValue;
+        for (var i = 0; i < array.length; i++) {
+          var randomKey = this.getRandomNumber(0, array.length - 1);
+          changeValue = array[i];
+          array[i] = array[randomKey];
+          array[randomKey] = changeValue;
+        }
+        return array;
       }
     };
   })();
