@@ -1,85 +1,70 @@
 'use strict';
 (function () {
+  var CODE_200 = 200;
+  var CODE_400 = 400;
+  var CODE_401 = 401;
+  var CODE_404 = 404;
+  var CODE_500 = 500;
+  var CODE_503 = 503;
+  var MAX_REQUEST_TIME = 10000;
+
+  var addErrorAndTimeoutListeners = function (xhr, onError) {
+    xhr.addEventListener('error', function () {
+      onError('Произошла ошибка соединения');
+    });
+    xhr.timeout = MAX_REQUEST_TIME;
+
+    xhr.addEventListener('timeout', function () {
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    });
+  };
 
   window.backend = {
-    saveUrl: 'https://js.dump.academy/code-and-magick',
-
     load: function (url, onLoad, onError) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
-      xhr.addEventListener('error', function () {
-        try {
-          throw new Error('Произошла ошибка соединения');
-        } catch (errorMessage) {
-          onError(errorMessage);
-        }
-      });
-      xhr.timeout = 10000; // 10s
-
-      xhr.addEventListener('timeout', function () {
-        try {
-          throw new Error('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-        } catch (errorMessage) {
-          onError(errorMessage);
-        }
-      });
+      addErrorAndTimeoutListeners(xhr, onError);
       xhr.addEventListener('load', function () {
-        try {
-          switch (xhr.status) {
-            case 200:
-              onLoad(xhr.response);
-              break;
-            case 400:
-              throw new Error('Неверный запрос');
-            case 401:
-              throw new Error('Пользователь не авторизован');
-            case 404:
-              throw new Error('Ничего не найдено');
-            default:
-              throw new Error('Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText);
-          }
-        } catch (errorMessage) {
-          onError(errorMessage);
+        switch (xhr.status) {
+          case CODE_200:
+            onLoad(xhr.response);
+            break;
+          case CODE_400:
+            onError('Неверный запрос');
+            break;
+          case CODE_401:
+            onError('Пользователь не авторизован');
+            break;
+          case CODE_404:
+            onError('Ничего не найдено');
+            break;
+          default:
+            onError('Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText);
         }
       });
       xhr.open('GET', url);
       xhr.send();
     },
-    save: function (data, onLoad, onError) {
+    save: function (url, data, onLoad, onError) {
       var xhr = new XMLHttpRequest();
-      xhr.addEventListener('error', function () {
-        try {
-          throw new Error('Произошла ошибка соединения');
-        } catch (errorMessage) {
-          onError(errorMessage);
-        }
-      });
-      xhr.timeout = 10000; // 10s
-      xhr.addEventListener('timeout', function () {
-        try {
-          throw new Error('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-        } catch (errorMessage) {
-          onError(errorMessage);
-        }
-      });
+      addErrorAndTimeoutListeners(xhr, onError);
       xhr.addEventListener('load', function () {
-        try {
-          switch (xhr.status) {
-            case 200:
-              onLoad();
-              break;
-            case 500:
-              throw new Error('Ошибка сервера');
-            case 503:
-              throw new Error('Сервер временно не работает');
-            default:
-              throw new Error('Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText);
-          }
-        } catch (errorMessage) {
-          onError(errorMessage);
+        switch (xhr.status) {
+          case CODE_200:
+            onLoad();
+            break;
+          case CODE_500:
+            onError('Ошибка сервера');
+            break;
+          case CODE_503:
+            onError('Сервер временно не работает');
+            break;
+          default:
+            onError('Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText);
         }
+
       });
-      xhr.open('POST', this.saveUrl);
+      xhr.open('POST', url);
       xhr.send(data);
     }
   };
