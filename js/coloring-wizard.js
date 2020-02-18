@@ -5,18 +5,20 @@
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
   // Изменение цвета мантии персонажа по нажатию
-  var wizardCoat = document.querySelector('.setup-wizard .wizard-coat ');
+  var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
   var wizardCoatData = document.querySelector('input[name=coat-color]');
   var onCoatClick = function () {
     window.util.colorize(wizardCoat, wizardCoatData, COAT_COLORS);
+    window.debounce(window.similarWizards.refresh);
   };
   wizardCoat.addEventListener('click', onCoatClick);
 
   // Изменение цвета глаз персонажа по нажатию
-  var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes ');
+  var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
   var wizardEyesData = document.querySelector('input[name=eyes-color]');
   var onEyesClick = function () {
     window.util.colorize(wizardEyes, wizardEyesData, EYES_COLORS);
+    window.debounce(window.similarWizards.refresh);
   };
   wizardEyes.addEventListener('click', onEyesClick);
 
@@ -25,6 +27,7 @@
   var wizardFireballData = wizardFireball.querySelector('input');
   var onFireballClick = function () {
     window.util.colorize(wizardFireball, wizardFireballData, FIREBALL_COLORS);
+    window.similarWizards.refresh();
   };
   wizardFireball.addEventListener('click', onFireballClick);
 

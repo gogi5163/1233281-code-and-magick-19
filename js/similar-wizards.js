@@ -20,6 +20,26 @@
     }
     return wizardElements;
   };
+  var searchSimilarWizards = function (data) {
+
+    var currentCoatColor = document.querySelector('input[name=coat-color]').getAttribute('value');
+    var currentEyesColor = document.querySelector('input[name=eyes-color]').getAttribute('value');
+    var maxSimilarWizards = data.filter(function (it) {
+      return (it.colorCoat === currentCoatColor && it.colorEyes === currentEyesColor);
+    });
+    var middleSimilarWizards = data.filter(function (it) {
+      return (it.colorCoat === currentCoatColor && it.colorEyes !== currentEyesColor);
+    });
+    var minSimilarWizards = data.filter(function (it) {
+      return (it.colorCoat !== currentCoatColor && it.colorEyes === currentEyesColor);
+    });
+    var otherWizards = data.filter(function (it) {
+      return (it.colorCoat !== currentCoatColor && it.colorEyes !== currentEyesColor);
+    });
+
+    return maxSimilarWizards.concat(middleSimilarWizards, minSimilarWizards, otherWizards);
+
+  };
 
   var onError = function (errorMessage) {
     var errorElement = document.createElement('div');
@@ -30,23 +50,36 @@
     document.querySelector('.setup-wizard-form').appendChild(errorElement);
 
   };
-
-  var onSuccess = function (data) {
-    var similarListElement = document.querySelector('.setup-similar-list');
-    // Перемешаем полученный массив data
-    var randomDataWizards = window.util.shuffleArray(data);
-    // Создаем пустой объект документа, который мы будем наполнять, перед добавлением в DOM
+  var appendElements = function (data, list) {
     var fragment = document.createDocumentFragment();
-    var wizardsElements = renderWizards(randomDataWizards);
+    var wizardsElements = renderWizards(searchSimilarWizards(data));
     for (var i = 0; i < COUNT_OF_WIZARDS; i++) {
       fragment.appendChild(wizardsElements[i]);
     }
     // Добавляем наполненный фрагмент в DOM
-    similarListElement.appendChild(fragment);
-
+    list.appendChild(fragment);
+  };
+  var onSuccess = function (data) {
+    window.similarWizards.data = data;
+    var similarListElement = document.querySelector('.setup-similar-list');
+    appendElements(data, similarListElement);
     // Покажем блок .setup-similar, удалив у него CSS-класс hidden
     document.querySelector('.setup-similar').classList.remove('hidden');
   };
   window.backend.load(LOAD_URL, onSuccess, onError);
+
+  window.similarWizards = {
+    refresh: function () {
+      if (window.similarWizards.data) {
+        var similarListElement = document.querySelector('.setup-similar-list');
+        // Очищаем список
+        while (similarListElement.firstChild) {
+          similarListElement.firstChild.remove();
+
+        }
+        appendElements(window.similarWizards.data, similarListElement);
+      }
+    }
+  };
 
 })();
