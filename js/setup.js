@@ -4,9 +4,12 @@
   var SAVE_URL = 'https://js.dump.academy/code-and-magick';
   var setupPopup = document.querySelector('.setup');
   var setupOpen = document.querySelector('.setup-open');
+  var setupOpenImage = document.querySelector('.setup-open img');
+  var avatarImage = document.querySelector('.setup-user-pic');
   var setupClose = document.querySelector('.setup-close');
   var playerName = document.querySelector('.setup-user-name');
   var setupStyle = setupPopup.getAttribute('style');
+
   var doDefaultSetup = function () {
     setupPopup.setAttribute('style', setupStyle);
   };
@@ -62,6 +65,8 @@
   var onSuccess = function () {
     form.setAttribute('style', '');
     closePopup();
+    setupOpenImage.setAttribute('src', avatarImage.getAttribute('src'));
+
 
   };
   var onError = function (errorMessage) {
